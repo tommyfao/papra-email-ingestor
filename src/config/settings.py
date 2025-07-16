@@ -1,15 +1,13 @@
 import os
-from dotenv import load_dotenv
-
-load_dotenv()
 
 class Settings:
-    IMAP_SERVER = os.getenv("IMAP_SERVER")
-    IMAP_PORT = int(os.getenv("IMAP_PORT", 993))
-    IMAP_USERNAME = os.getenv("IMAP_USERNAME")
-    IMAP_PASSWORD = os.getenv("IMAP_PASSWORD")
-    DOWNLOAD_FREQUENCY = int(os.getenv("DOWNLOAD_FREQUENCY", 60))  # in seconds
-    ATTACHMENT_FOLDER = os.getenv("ATTACHMENT_FOLDER", "./attachments")
-    PDF_FOLDER = os.getenv("PDF_FOLDER", "./pdfs")
-    ALLOWED_ATTACHMENT_TYPES = os.getenv("ALLOWED_ATTACHMENT_TYPES", "pdf,docx,xlsx").split(",")
-    MAX_EMAILS_TO_DOWNLOAD = int(os.getenv("MAX_EMAILS_TO_DOWNLOAD", 10))
+    def __init__(self):
+        self.imap_server = os.environ.get('IMAP_SERVER')
+        self.imap_port = int(os.environ.get('IMAP_PORT', 993))
+        self.imap_user = os.environ.get('IMAP_USER')
+        self.imap_password = os.environ.get('IMAP_PASSWORD')
+        self.download_frequency = int(os.environ.get('DOWNLOAD_FREQUENCY', 60))  # in seconds
+        self.attachment_folder = os.environ.get('ATTACHMENT_FOLDER', './attachments')
+        self.pdf_folder = os.environ.get('PDF_FOLDER', './pdfs')
+        self.allowed_attachment_types = os.environ.get('ALLOWED_ATTACHMENT_TYPES', 'pdf,docx,xlsx').split(',')
+        self.max_emails_to_download = int(os.environ.get('MAX_EMAILS_TO_DOWNLOAD', 10))
