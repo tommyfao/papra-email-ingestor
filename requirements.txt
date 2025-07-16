@@ -1,0 +1,6 @@
+email-parser
+requests
+imapclient
+pdfkit
+python-dotenv
+PyPDF2

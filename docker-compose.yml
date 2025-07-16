@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  papra-imap-ingestor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./downloads:/app/downloads
+    environment:
+      - IMAP_SERVER=${IMAP_SERVER}
+      - IMAP_PORT=${IMAP_PORT}
+      - IMAP_USER=${IMAP_USER}
+      - IMAP_PASSWORD=${IMAP_PASSWORD}
+      - DOWNLOAD_FREQUENCY=${DOWNLOAD_FREQUENCY}
+      - ATTACHMENT_HANDLING=${ATTACHMENT_HANDLING}
+    restart: always
