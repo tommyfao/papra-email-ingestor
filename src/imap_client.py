@@ -1,5 +1,6 @@
 import imaplib
 import email
+import os
 from email.header import decode_header
 
 class ImapClient:
@@ -30,18 +31,35 @@ class ImapClient:
         return emails
 
     def parse_email(self, msg):
-        """Parse email message and extract key information"""
+        """Parse email message and extract key information including attachments"""
         subject = self.decode_header_value(msg.get("Subject", ""))
         sender = msg.get("From", "")
         date = msg.get("Date", "")
         
-        # Extract body
+        # Extract body and attachments
         body = ""
+        attachments = []
+        
         if msg.is_multipart():
             for part in msg.walk():
-                if part.get_content_type() == "text/plain":
+                content_type = part.get_content_type()
+                content_disposition = str(part.get("Content-Disposition"))
+                
+                # Extract body
+                if content_type == "text/plain" and "attachment" not in content_disposition:
                     body = part.get_payload(decode=True).decode('utf-8', errors='ignore')
-                    break
+                
+                # Extract attachments
+                elif "attachment" in content_disposition:
+                    filename = part.get_filename()
+                    if filename:
+                        decoded_filename = self.decode_header_value(filename)
+                        attachment_data = part.get_payload(decode=True)
+                        attachments.append({
+                            'filename': decoded_filename,
+                            'data': attachment_data,
+                            'content_type': content_type
+                        })
         else:
             body = msg.get_payload(decode=True).decode('utf-8', errors='ignore')
         
@@ -49,7 +67,8 @@ class ImapClient:
             'subject': subject,
             'sender': sender,
             'date': date,
-            'body': body
+            'body': body,
+            'attachments': attachments
         }
 
     def decode_header_value(self, value):

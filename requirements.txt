@@ -2,5 +2,5 @@
 # All required modules (imaplib, email) are built into Python
 
 # Add any additional dependencies you might need:
-#python-dotenv==1.0.0  # For environment variable management
-# logging==0.4.9.6      # Enhanced logging (if needed)
+#python-dotenv==1.0.0
+reportlab==4.0.4

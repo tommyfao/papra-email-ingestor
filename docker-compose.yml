@@ -1,12 +1,13 @@
 version: '3.8'
 
 services:
-  papra-imap-ingestor:
+  papra-imap-ingestor2:
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
       - ./downloads:/app/downloads
+      - ./ingestor:/ingestor
     env_file:
       - .env
     restart: always
